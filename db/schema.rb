@@ -10,8 +10,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 0) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_05_200045) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "logs", force: :cascade do |t|
+    t.string "action"
+    t.bigint "user_id", null: false
+    t.bigint "player_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id"], name: "index_logs_on_player_id"
+    t.index ["user_id"], name: "index_logs_on_user_id"
+  end
+
+  create_table "players", force: :cascade do |t|
+    t.string "uuid"
+    t.string "username"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_players_on_user_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "uid"
+    t.string "email"
+    t.string "username"
+    t.string "avatar"
+    t.string "discriminator"
+    t.boolean "valided"
+    t.boolean "admin"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "logs", "players"
+  add_foreign_key "logs", "users"
+  add_foreign_key "players", "users"
 end

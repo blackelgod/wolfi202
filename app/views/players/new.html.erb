@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-12 col-sm-4">
+      <div class="forms">
+        <h2 class="text-center mt-3">Nouvel enregistrement</h2>
+        <% if current_user.valided? || current_user.admin? %>
+          <%= simple_form_for @player do |f| %>
+            <%= f.input :uuid, class: "form-control", label: "Nouveau joueur" %>
+            <%= f.button :submit, class: "btn btn-success text-white", value: "Enregistrer"%>
+          <% end %>
+          <% else %>
+            <p class="text-center">Vous devez être validé pour accéder au contenu.</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

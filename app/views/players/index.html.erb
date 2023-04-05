@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-12 col-sm-4">
+      <div class="forms">
+        <h2 class="text-center mt-3">Joueurs enregistrés</h2>
+        <% if user_signed_in? %>
+          <%= form_tag @root_path, method: :get do %>
+          <%= text_field_tag :query, params[:query], placeholder: "Rechercher...", class: "form-control"%>
+            <br>
+          <%= submit_tag "Chercher", class: "btn btn-success text-white" %>
+        <% end %>
+        <p><i class="fas fa-users"></i> Nombre de joueurs enregistrés : <strong><%= Player.count %></strong></p>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">UUID</th>
+              <th scope="col">Pseudo</th>
+              <th scope="col">Avatar</th>
+            </tr>
+          </thead>
+          <tbody>
+          <% @players.each do |player| %>
+            <tr>
+              <td><%= player.uuid %></td>
+              <td><%= player.username %></td>
+              <td><%= image_tag "https://wolfy.net/api/skin/render/user.png?id=#{player.uuid}&v=WF9WABNRLH&profile=center", alt: "avatar", class: "avatar-wolfy" %></td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+        <%== pagy_bootstrap_nav(@pagy) %>
+        <% else %>
+          <p class="text-center">Vous devez être connecté pour accéder au contenu.</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

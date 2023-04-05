@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-12 col-sm-4">
+      <div class="forms">
+        <h2 class="text-center mt-3">Logs</h2>
+          <%= form_tag @admin_logs_path, method: :get do %>
+            <%= text_field_tag :query, params[:query], placeholder: "Rechercher...", class: "form-control"%>
+              <br>
+            <%= submit_tag "Chercher", class: "btn btn-success text-white" %>
+          <% end %>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Action</th>
+              <th scope="col">Joueur</th>
+              <th scope="col">Par</th>
+              <th scope="col">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+          <% @logs.each do |log| %>
+            <tr>
+              <td><%= log.action %></td>
+              <td><%= link_to log.player.username, root_path(query: log.player.uuid) %></td>
+              <td><%= log.user.username %></td>
+              <td><%= format_french_date(log.created_at) %></td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+        <%== pagy_bootstrap_nav(@pagy) %>
+      </div>
+    </div>
+  </div>
+</div>
